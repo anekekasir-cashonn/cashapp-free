@@ -1,0 +1,49 @@
+name: cashapp_free
+description: "Offline POS (Point of Sale) cashier application with Material 3 design."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  provider: ^6.0.0
+  
+  # Database
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  
+  # Localization
+  intl: ^0.19.0
+  
+  # UI/Material Design
+  google_fonts: ^6.1.0
+  
+  # CSV Export
+  csv: ^6.0.0
+  
+  # AdMob (Optional - can be used with google_mobile_ads)
+  google_mobile_ads: ^2.4.0
+  
+  # Cupertino Icons
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_linter: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/lang/
+
+  # Enable Material 3 styles
+  no-material-banner: false

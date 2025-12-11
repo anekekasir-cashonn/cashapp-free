@@ -1,0 +1,102 @@
+{
+  "app_title": "CashApp Gratis",
+  "app_subtitle": "Kasir POS Offline",
+  
+  "bottom_nav": {
+    "home": "Beranda",
+    "products": "Produk",
+    "pos": "POS",
+    "history": "Riwayat",
+    "settings": "Pengaturan"
+  },
+  
+  "home_screen": {
+    "title": "Dasbor",
+    "today_transactions": "Transaksi Hari Ini",
+    "today_revenue": "Pendapatan Hari Ini",
+    "total_revenue": "Total Pendapatan (Sepanjang Waktu)",
+    "total_transactions": "Total Transaksi",
+    "quick_actions": "Aksi Cepat",
+    "new_sale": "Penjualan Baru",
+    "inventory": "Inventaris",
+    "history": "Riwayat"
+  },
+  
+  "products_screen": {
+    "title": "Manajemen Produk",
+    "search_hint": "Cari produk...",
+    "no_products": "Tidak ada produk yang ditemukan",
+    "add_product": "Tambah Produk",
+    "edit_product": "Edit Produk",
+    "delete_product": "Hapus Produk",
+    "product_name": "Nama Produk",
+    "price": "Harga",
+    "stock": "Stok",
+    "category": "Kategori",
+    "product_added": "Produk berhasil ditambahkan",
+    "product_updated": "Produk berhasil diperbarui",
+    "product_deleted": "Produk dihapus",
+    "edit": "Edit",
+    "delete": "Hapus",
+    "add": "Tambah"
+  },
+  
+  "pos_screen": {
+    "title": "Titik Penjualan",
+    "cart": "Keranjang",
+    "cart_empty": "Keranjang kosong",
+    "total": "Total",
+    "checkout": "Checkout",
+    "clear_cart": "Kosongkan Keranjang",
+    "enter_quantity": "Masukkan Jumlah",
+    "quantity": "Jumlah",
+    "transaction_completed": "Transaksi selesai",
+    "cart_cleared": "Keranjang dikosongkan",
+    "added_to_cart": "Ditambahkan ke keranjang"
+  },
+  
+  "history_screen": {
+    "title": "Riwayat Transaksi",
+    "date_range": "Rentang Tanggal",
+    "transactions": "Transaksi",
+    "total_revenue": "Total Pendapatan",
+    "no_transactions": "Tidak ada transaksi yang ditemukan",
+    "transaction_id": "Transaksi",
+    "delete": "Hapus",
+    "transaction_deleted": "Transaksi dihapus"
+  },
+  
+  "settings_screen": {
+    "title": "Pengaturan",
+    "appearance": "Tampilan",
+    "dark_mode": "Mode Gelap",
+    "enable_dark_theme": "Aktifkan tema gelap",
+    "language": "Bahasa",
+    "select_language": "Pilih Bahasa",
+    "english": "Inggris",
+    "indonesian": "Indonesia",
+    "about": "Tentang",
+    "app_name": "Nama Aplikasi",
+    "version": "Versi",
+    "database": "Basis Data",
+    "danger_zone": "Zona Berbahaya",
+    "clear_all_data": "Hapus Semua Data",
+    "clear_all_data_warning": "Ini akan menghapus secara permanen semua produk, transaksi, dan pengaturan. Tindakan ini tidak dapat dibatalkan.",
+    "cancel": "Batal"
+  },
+  
+  "common": {
+    "loading": "Memuat...",
+    "error": "Kesalahan",
+    "success": "Berhasil",
+    "cancel": "Batal",
+    "confirm": "Konfirmasi",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "add": "Tambah",
+    "save": "Simpan",
+    "close": "Tutup",
+    "items": "item",
+    "total": "Total"
+  }
+}

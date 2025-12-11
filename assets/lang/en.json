@@ -1,0 +1,102 @@
+{
+  "app_title": "CashApp Free",
+  "app_subtitle": "Offline POS Cashier",
+  
+  "bottom_nav": {
+    "home": "Home",
+    "products": "Products",
+    "pos": "POS",
+    "history": "History",
+    "settings": "Settings"
+  },
+  
+  "home_screen": {
+    "title": "Dashboard",
+    "today_transactions": "Today's Transactions",
+    "today_revenue": "Today's Revenue",
+    "total_revenue": "Total Revenue (All Time)",
+    "total_transactions": "Total Transactions",
+    "quick_actions": "Quick Actions",
+    "new_sale": "New Sale",
+    "inventory": "Inventory",
+    "history": "History"
+  },
+  
+  "products_screen": {
+    "title": "Product Management",
+    "search_hint": "Search products...",
+    "no_products": "No products found",
+    "add_product": "Add Product",
+    "edit_product": "Edit Product",
+    "delete_product": "Delete Product",
+    "product_name": "Product Name",
+    "price": "Price",
+    "stock": "Stock",
+    "category": "Category",
+    "product_added": "Product added successfully",
+    "product_updated": "Product updated successfully",
+    "product_deleted": "Product deleted",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add"
+  },
+  
+  "pos_screen": {
+    "title": "Point of Sale",
+    "cart": "Cart",
+    "cart_empty": "Cart is empty",
+    "total": "Total",
+    "checkout": "Checkout",
+    "clear_cart": "Clear Cart",
+    "enter_quantity": "Enter Quantity",
+    "quantity": "Quantity",
+    "transaction_completed": "Transaction completed",
+    "cart_cleared": "Cart cleared",
+    "added_to_cart": "Added to cart"
+  },
+  
+  "history_screen": {
+    "title": "Transaction History",
+    "date_range": "Date Range",
+    "transactions": "Transactions",
+    "total_revenue": "Total Revenue",
+    "no_transactions": "No transactions found",
+    "transaction_id": "Transaction",
+    "delete": "Delete",
+    "transaction_deleted": "Transaction deleted"
+  },
+  
+  "settings_screen": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "dark_mode": "Dark Mode",
+    "enable_dark_theme": "Enable dark theme",
+    "language": "Language",
+    "select_language": "Select Language",
+    "english": "English",
+    "indonesian": "Indonesian",
+    "about": "About",
+    "app_name": "App Name",
+    "version": "Version",
+    "database": "Database",
+    "danger_zone": "Danger Zone",
+    "clear_all_data": "Clear All Data",
+    "clear_all_data_warning": "This will permanently delete all products, transactions, and settings. This action cannot be undone.",
+    "cancel": "Cancel"
+  },
+  
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "save": "Save",
+    "close": "Close",
+    "items": "items",
+    "total": "Total"
+  }
+}
