@@ -36,9 +36,11 @@
     "product_added": "Produk berhasil ditambahkan",
     "product_updated": "Produk berhasil diperbarui",
     "product_deleted": "Produk dihapus",
+    "please_fill_all_fields": "Silakan isi semua bidang",
     "edit": "Edit",
     "delete": "Hapus",
-    "add": "Tambah"
+    "add": "Tambah",
+    "update": "Perbarui"
   },
   
   "pos_screen": {
@@ -70,6 +72,7 @@
     "title": "Pengaturan",
     "appearance": "Tampilan",
     "dark_mode": "Mode Gelap",
+    "dark_mode_desc": "Mode Gelap",
     "enable_dark_theme": "Aktifkan tema gelap",
     "language": "Bahasa",
     "select_language": "Pilih Bahasa",
@@ -97,6 +100,9 @@
     "save": "Simpan",
     "close": "Tutup",
     "items": "item",
-    "total": "Total"
+    "total": "Total",
+    "all": "Semua"
   }
+
+
 }

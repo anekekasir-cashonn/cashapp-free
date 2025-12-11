@@ -104,7 +104,6 @@ app.*.map.json
 **/ios/**/.symlinks/
 
 # Web
-lib/generated_plugin_registrant.dart
 
 # Windows
 windows/flutter/generated_plugins.cmake

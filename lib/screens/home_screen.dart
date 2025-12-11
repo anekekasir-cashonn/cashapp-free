@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:cashapp_free/providers/index.dart';
+import 'package:cashapp_free/utils/localization_helper.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final Function(int)? onNavigate;
+  
+  const HomeScreen({Key? key, this.onNavigate}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -32,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final transactionProvider = context.watch<TransactionProvider>();
+    final lang = Provider.of<SettingsProvider>(context).language;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -43,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               // Header
               Text(
-                'Dashboard',
+                t('home_screen.title', lang),
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -63,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildStatCard(
                       context,
                       icon: Icons.receipt,
-                      title: 'Today\'s Transactions',
+                      title: t('home_screen.today_transactions', lang),
                       value: _todayStats['transactionCount'].toString(),
                       color: Colors.blue,
                     ),
@@ -73,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildStatCard(
                       context,
                       icon: Icons.trending_up,
-                      title: 'Today\'s Revenue',
+                      title: t('home_screen.today_revenue', lang),
                       value:
                           'Rp ${NumberFormat('#,###').format(_todayStats['totalAmount'] ?? 0)}',
                       color: Colors.green,
@@ -84,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildStatCard(
                       context,
                       icon: Icons.wallet,
-                      title: 'Total Revenue (All Time)',
+                      title: t('home_screen.total_revenue', lang),
                       value:
                           'Rp ${NumberFormat('#,###').format(transactionProvider.totalRevenue)}',
                       color: Colors.orange,
@@ -95,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildStatCard(
                       context,
                       icon: Icons.shopping_cart,
-                      title: 'Total Transactions',
+                      title: t('home_screen.total_transactions', lang),
                       value: transactionProvider.totalTransactions.toString(),
                       color: Colors.purple,
                     ),
@@ -110,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Quick Actions
               Text(
-                'Quick Actions',
+                t('home_screen.quick_actions', lang),
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -122,10 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: _buildActionButton(
                       context,
-                      label: 'New Sale',
+                      label: t('home_screen.new_sale', lang),
                       icon: Icons.add_shopping_cart,
                       onTap: () {
-                        // Navigate to POS screen
+                        _navigateToTab(2);
                       },
                     ),
                   ),
@@ -133,10 +137,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: _buildActionButton(
                       context,
-                      label: 'Inventory',
+                      label: t('home_screen.inventory', lang),
                       icon: Icons.inventory_2,
                       onTap: () {
-                        // Navigate to Products screen
+                        _navigateToTab(1);
                       },
                     ),
                   ),
@@ -148,10 +152,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: _buildActionButton(
                       context,
-                      label: 'History',
+                      label: t('home_screen.history', lang),
                       icon: Icons.history,
                       onTap: () {
-                        // Navigate to History screen
+                        _navigateToTab(3);
                       },
                     ),
                   ),
@@ -159,10 +163,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: _buildActionButton(
                       context,
-                      label: 'Settings',
+                      label: t('settings_screen.title', lang),
                       icon: Icons.settings,
                       onTap: () {
-                        // Navigate to Settings screen
+                        _navigateToTab(4);
                       },
                     ),
                   ),
@@ -261,5 +265,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void _navigateToTab(int tabIndex) {
+    if (widget.onNavigate != null) {
+      widget.onNavigate!(tabIndex);
+    }
   }
 }

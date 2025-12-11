@@ -3,9 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:cashapp_free/providers/index.dart';
 import 'package:cashapp_free/screens/index.dart';
 import 'package:cashapp_free/theme.dart';
+import 'package:cashapp_free/utils/localization_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Load translations before the app starts so widgets can use `t()` immediately
+  await LocalizationHelper().initialize();
   runApp(const MyApp());
 }
 
@@ -48,13 +51,23 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const ProductsScreen(),
-    const PosScreen(),
-    const HistoryScreen(),
-    const SettingsScreen(),
-  ];
+  late final List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      HomeScreen(onNavigate: _navigateToScreen),
+      const ProductsScreen(),
+      const PosScreen(),
+      const HistoryScreen(),
+      const SettingsScreen(),
+    ];
+  }
+
+  void _navigateToScreen(int index) {
+    setState(() => _selectedIndex = index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,31 +83,31 @@ class _MainScreenState extends State<MainScreen> {
               _selectedIndex = index;
             });
           },
-          destinations: const [
+          destinations: [
             NavigationDestination(
               icon: Icon(Icons.home_outlined),
               selectedIcon: Icon(Icons.home),
-              label: 'Home',
+              label: t('bottom_nav.home', Provider.of<SettingsProvider>(context).language),
             ),
             NavigationDestination(
               icon: Icon(Icons.inventory_2_outlined),
               selectedIcon: Icon(Icons.inventory_2),
-              label: 'Products',
+              label: t('bottom_nav.products', Provider.of<SettingsProvider>(context).language),
             ),
             NavigationDestination(
               icon: Icon(Icons.shopping_cart_outlined),
               selectedIcon: Icon(Icons.shopping_cart),
-              label: 'POS',
+              label: t('bottom_nav.pos', Provider.of<SettingsProvider>(context).language),
             ),
             NavigationDestination(
               icon: Icon(Icons.receipt_outlined),
               selectedIcon: Icon(Icons.receipt),
-              label: 'History',
+              label: t('bottom_nav.history', Provider.of<SettingsProvider>(context).language),
             ),
             NavigationDestination(
               icon: Icon(Icons.settings_outlined),
               selectedIcon: Icon(Icons.settings),
-              label: 'Settings',
+              label: t('bottom_nav.settings', Provider.of<SettingsProvider>(context).language),
             ),
           ],
         ),
@@ -112,31 +125,31 @@ class _MainScreenState extends State<MainScreen> {
                 });
               },
               labelType: NavigationRailLabelType.all,
-              destinations: const [
+              destinations: [
                 NavigationRailDestination(
                   icon: Icon(Icons.home_outlined),
                   selectedIcon: Icon(Icons.home),
-                  label: Text('Home'),
+                  label: Text(t('bottom_nav.home', Provider.of<SettingsProvider>(context).language)),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.inventory_2_outlined),
                   selectedIcon: Icon(Icons.inventory_2),
-                  label: Text('Products'),
+                  label: Text(t('bottom_nav.products', Provider.of<SettingsProvider>(context).language)),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.shopping_cart_outlined),
                   selectedIcon: Icon(Icons.shopping_cart),
-                  label: Text('POS'),
+                  label: Text(t('bottom_nav.pos', Provider.of<SettingsProvider>(context).language)),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.receipt_outlined),
                   selectedIcon: Icon(Icons.receipt),
-                  label: Text('History'),
+                  label: Text(t('bottom_nav.history', Provider.of<SettingsProvider>(context).language)),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.settings_outlined),
                   selectedIcon: Icon(Icons.settings),
-                  label: Text('Settings'),
+                  label: Text(t('bottom_nav.settings', Provider.of<SettingsProvider>(context).language)),
                 ),
               ],
             ),

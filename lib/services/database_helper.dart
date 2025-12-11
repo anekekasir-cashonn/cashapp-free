@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:cashapp_free/models/index.dart';
+import 'package:cashapp_free/models/product.dart';
+import 'package:cashapp_free/models/transaction.dart' as models;
 
 class DatabaseHelper {
   static const String dbName = 'cashapp.db';
@@ -19,8 +20,9 @@ class DatabaseHelper {
     final String path = join(await getDatabasesPath(), dbName);
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -32,7 +34,8 @@ class DatabaseHelper {
         name TEXT NOT NULL,
         price REAL NOT NULL,
         stock INTEGER NOT NULL,
-        category TEXT NOT NULL
+        category TEXT NOT NULL,
+        image TEXT
       )
     ''');
 
@@ -60,6 +63,15 @@ class DatabaseHelper {
         FOREIGN KEY (productId) REFERENCES $productTable(id)
       )
     ''');
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      // add image column to products table
+      try {
+        await db.execute('ALTER TABLE $productTable ADD COLUMN image TEXT');
+      } catch (_) {}
+    }
   }
 
   // ============= PRODUCT CRUD =============
@@ -113,7 +125,7 @@ class DatabaseHelper {
 
   // ============= TRANSACTION CRUD =============
 
-  Future<int> insertTransaction(Transaction transaction) async {
+  Future<int> insertTransaction(models.Transaction transaction) async {
     final db = await database;
     final int transactionId = await db.insert(
       transactionTable,
@@ -131,23 +143,23 @@ class DatabaseHelper {
     return transactionId;
   }
 
-  Future<List<Transaction>> getAllTransactions() async {
+  Future<List<models.Transaction>> getAllTransactions() async {
     final db = await database;
     final List<Map<String, dynamic>> transactionMaps = 
         await db.query(transactionTable, orderBy: 'dateTime DESC');
 
-    List<Transaction> transactions = [];
+    List<models.Transaction> transactions = [];
     for (var transactionMap in transactionMaps) {
       final items = await getTransactionItems(transactionMap['id']);
       transactions.add(
-        Transaction.fromMap(transactionMap, items: items),
+        models.Transaction.fromMap(transactionMap, items: items),
       );
     }
 
     return transactions;
   }
 
-  Future<Transaction?> getTransactionById(int id) async {
+  Future<models.Transaction?> getTransactionById(int id) async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
       transactionTable,
@@ -157,19 +169,19 @@ class DatabaseHelper {
 
     if (maps.isNotEmpty) {
       final items = await getTransactionItems(id);
-      return Transaction.fromMap(maps.first, items: items);
+      return models.Transaction.fromMap(maps.first, items: items);
     }
     return null;
   }
 
-  Future<List<TransactionItem>> getTransactionItems(int transactionId) async {
+  Future<List<models.TransactionItem>> getTransactionItems(int transactionId) async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
       transactionItemTable,
       where: 'transactionId = ?',
       whereArgs: [transactionId],
     );
-    return List.generate(maps.length, (i) => TransactionItem.fromMap(maps[i]));
+    return List.generate(maps.length, (i) => models.TransactionItem.fromMap(maps[i]));
   }
 
   Future<void> deleteTransaction(int id) async {
@@ -239,8 +251,8 @@ class DatabaseHelper {
   }
 }
 
-extension TransactionItemExtension on TransactionItem {
-  TransactionItem copyWith({
+extension TransactionItemExtension on models.TransactionItem {
+  models.TransactionItem copyWith({
     int? id,
     int? transactionId,
     int? productId,
@@ -249,7 +261,7 @@ extension TransactionItemExtension on TransactionItem {
     int? quantity,
     double? subtotal,
   }) {
-    return TransactionItem(
+    return models.TransactionItem(
       id: id ?? this.id,
       transactionId: transactionId ?? this.transactionId,
       productId: productId ?? this.productId,

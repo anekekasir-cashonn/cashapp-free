@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:cashapp_free/providers/index.dart';
+import 'package:cashapp_free/utils/localization_helper.dart';
 
 class PosScreen extends StatefulWidget {
   const PosScreen({Key? key}) : super(key: key);
@@ -22,23 +23,24 @@ class _PosScreenState extends State<PosScreen> {
 
   void _showQuantityDialog(int productId) {
     _quantityController.clear();
+    final lang = Provider.of<SettingsProvider>(context, listen: false).language;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Enter Quantity'),
+        title: Text(t('pos_screen.enter_quantity', lang)),
         content: TextField(
           controller: _quantityController,
           keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            labelText: 'Quantity',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            labelText: t('pos_screen.quantity', lang),
+            border: const OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t('common.cancel', lang)),
           ),
           FilledButton(
             onPressed: () {
@@ -52,13 +54,13 @@ class _PosScreenState extends State<PosScreen> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content:
-                        Text('Added ${product.name} x$quantity to cart'),
+                        Text('${product.name} x$quantity ${t('pos_screen.added_to_cart', lang)}'),
                     duration: const Duration(milliseconds: 800),
                   ),
                 );
               }
             },
-            child: const Text('Add'),
+            child: Text(t('common.add', lang)),
           ),
         ],
       ),
@@ -69,6 +71,7 @@ class _PosScreenState extends State<PosScreen> {
   Widget build(BuildContext context) {
     final productProvider = context.watch<ProductProvider>();
     final transactionProvider = context.watch<TransactionProvider>();
+    final lang = Provider.of<SettingsProvider>(context).language;
 
     final categories = [
       'All',
@@ -101,7 +104,7 @@ class _PosScreenState extends State<PosScreen> {
                               (category) => Padding(
                                 padding: const EdgeInsets.only(right: 8),
                                 child: FilterChip(
-                                  label: Text(category),
+                                  label: Text(category == 'All' ? t('common.all', lang) : category),
                                   selected: _selectedCategory == category,
                                   onSelected: (selected) {
                                     setState(() {
@@ -183,7 +186,7 @@ class _PosScreenState extends State<PosScreen> {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        'Stock: ${product.stock}',
+                                        '${t('pos_screen.stock', lang)}: ${product.stock}',
                                         style: const TextStyle(fontSize: 12),
                                       ),
                                     ],
@@ -217,7 +220,7 @@ class _PosScreenState extends State<PosScreen> {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Text(
-                      'Cart (${transactionProvider.cartItemCount})',
+                      '${t('pos_screen.cart', lang)} (${transactionProvider.cartItemCount})',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -241,7 +244,7 @@ class _PosScreenState extends State<PosScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
-                                  'Cart is empty',
+                                  t('pos_screen.cart_empty', lang),
                                   style:
                                       Theme.of(context).textTheme.bodyLarge,
                                 ),
@@ -374,7 +377,7 @@ class _PosScreenState extends State<PosScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Total:'),
+                            Text('${t('common.total', lang)}:'),
                             Text(
                               'Rp ${NumberFormat('#,###').format(transactionProvider.totalAmount)}',
                               style: Theme.of(context)
@@ -394,14 +397,14 @@ class _PosScreenState extends State<PosScreen> {
                                   await transactionProvider
                                       .completeTransaction();
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
+                                    SnackBar(
                                       content:
-                                          Text('Transaction completed'),
+                                          Text(t('pos_screen.transaction_completed', lang)),
                                     ),
                                   );
                                 },
                           icon: const Icon(Icons.check),
-                          label: const Text('Checkout'),
+                          label: Text(t('pos_screen.checkout', lang)),
                         ),
                         const SizedBox(height: 8),
                         OutlinedButton.icon(
@@ -410,13 +413,13 @@ class _PosScreenState extends State<PosScreen> {
                               : () {
                                   transactionProvider.clearCart();
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Cart cleared'),
+                                    SnackBar(
+                                      content: Text(t('pos_screen.cart_cleared', lang)),
                                     ),
                                   );
                                 },
                           icon: const Icon(Icons.delete),
-                          label: const Text('Clear Cart'),
+                          label: Text(t('pos_screen.clear_cart', lang)),
                         ),
                       ],
                     ),

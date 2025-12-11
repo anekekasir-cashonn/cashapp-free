@@ -36,9 +36,14 @@
     "product_added": "Product added successfully",
     "product_updated": "Product updated successfully",
     "product_deleted": "Product deleted",
+    "please_fill_all_fields": "Please fill all fields",
     "edit": "Edit",
     "delete": "Delete",
-    "add": "Add"
+    "add": "Add",
+    "update": "Update"
+  },
+  "products_screen": {
+    "image": "Image URL or pick file"
   },
   
   "pos_screen": {
@@ -70,6 +75,7 @@
     "title": "Settings",
     "appearance": "Appearance",
     "dark_mode": "Dark Mode",
+    "dark_mode_desc": "Mode Gelap",
     "enable_dark_theme": "Enable dark theme",
     "language": "Language",
     "select_language": "Select Language",
@@ -97,6 +103,7 @@
     "save": "Save",
     "close": "Close",
     "items": "items",
-    "total": "Total"
+    "total": "Total",
+    "all": "All"
   }
 }

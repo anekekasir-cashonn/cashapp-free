@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:cashapp_free/providers/index.dart';
+import 'package:cashapp_free/utils/localization_helper.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -40,6 +41,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final transactionProvider = context.watch<TransactionProvider>();
+    final lang = Provider.of<SettingsProvider>(context).language;
 
     final filteredTransactions =
         transactionProvider.transactions.where((transaction) {
@@ -56,7 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transaction History'),
+        title: Text(t('history_screen.title', lang)),
         elevation: 0,
       ),
       body: Column(
@@ -80,7 +82,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Date Range'),
+                        Text(t('history_screen.date_range', lang)),
                         const SizedBox(height: 4),
                         Text(
                           '${DateFormat('MMM d, yyyy').format(_selectedDateRange.start)} - ${DateFormat('MMM d, yyyy').format(_selectedDateRange.end)}',
@@ -113,7 +115,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Transactions',
+                            t('history_screen.transactions', lang),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(height: 8),
@@ -140,7 +142,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Total Revenue',
+                            t('history_screen.total_revenue', lang),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(height: 8),
@@ -182,7 +184,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No transactions found',
+                          t('history_screen.no_transactions', lang),
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
@@ -206,7 +208,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Transaction #${transaction.id}',
+                                      '${t('history_screen.transaction_id', lang)} #${transaction.id}',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -240,7 +242,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    '${transaction.itemCount} items',
+                                    '${transaction.itemCount} ${t('common.items', lang)}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall,
@@ -302,9 +304,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
-                                        'Total',
-                                        style: TextStyle(
+                                      Text(
+                                        t('common.total', lang),
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -330,15 +332,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
-                                        const SnackBar(
+                                        SnackBar(
                                           content: Text(
-                                            'Transaction deleted',
+                                            t('history_screen.transaction_deleted', lang),
                                           ),
                                         ),
                                       );
                                     },
                                     icon: const Icon(Icons.delete),
-                                    label: const Text('Delete'),
+                                    label: Text(t('common.delete', lang)),
                                   ),
                                 ],
                               ),
@@ -354,3 +356,4 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 }
+

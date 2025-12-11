@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:cashapp_free/utils/localization_helper.dart';
+import 'package:cashapp_free/providers/index.dart';
 
 /// Custom AppBar with Material 3 styling
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -36,7 +39,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 /// Reusable loading dialog
-void showLoadingDialog(BuildContext context, {String message = 'Loading...'}) {
+void showLoadingDialog(BuildContext context, {String? message}) {
+  final lang = Provider.of<SettingsProvider>(context, listen: false).language;
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -46,7 +50,7 @@ void showLoadingDialog(BuildContext context, {String message = 'Loading...'}) {
         children: [
           const CircularProgressIndicator(),
           const SizedBox(height: 16),
-          Text(message),
+          Text(message ?? t('common.loading', lang)),
         ],
       ),
     ),
@@ -60,6 +64,7 @@ void showErrorDialog(
   required String message,
   String? buttonText,
 }) {
+  final lang = Provider.of<SettingsProvider>(context, listen: false).language;
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -68,7 +73,7 @@ void showErrorDialog(
       actions: [
         FilledButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(buttonText ?? 'OK'),
+          child: Text(buttonText ?? t('common.confirm', lang)),
         ),
       ],
     ),
@@ -83,6 +88,7 @@ Future<bool?> showConfirmDialog(
   String? confirmText,
   String? cancelText,
 }) {
+  final lang = Provider.of<SettingsProvider>(context, listen: false).language;
   return showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
@@ -91,11 +97,11 @@ Future<bool?> showConfirmDialog(
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          child: Text(cancelText ?? 'Cancel'),
+          child: Text(cancelText ?? t('common.cancel', lang)),
         ),
         FilledButton(
           onPressed: () => Navigator.pop(context, true),
-          child: Text(confirmText ?? 'Confirm'),
+          child: Text(confirmText ?? t('common.confirm', lang)),
         ),
       ],
     ),

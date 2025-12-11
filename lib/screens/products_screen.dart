@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cashapp_free/providers/index.dart';
 import 'package:cashapp_free/models/index.dart';
+import 'package:cashapp_free/utils/localization_helper.dart';
+import 'dart:convert';
+import 'package:flutter/foundation.dart' show kIsWeb;
+// ignore: uri_does_not_exist
+import 'dart:html' as html;
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({Key? key}) : super(key: key);
@@ -16,6 +21,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _stockController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _imageController = TextEditingController();
 
   @override
   void dispose() {
@@ -32,46 +38,88 @@ class _ProductsScreenState extends State<ProductsScreen> {
     _priceController.clear();
     _stockController.clear();
     _categoryController.clear();
+    _imageController.clear();
+
+    final lang = Provider.of<SettingsProvider>(context, listen: false).language;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Add Product'),
+        title: Text(t('products_screen.add_product', lang)),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Product Name',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t('products_screen.product_name', lang),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 12),
+              // Image field (URL or pick file on web)
+              TextField(
+                controller: _imageController,
+                decoration: InputDecoration(
+                  labelText: t('products_screen.image', lang),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: kIsWeb
+                      ? IconButton(
+                          icon: const Icon(Icons.photo_library),
+                          onPressed: () {
+                            // web file picker
+                            final input = html.FileUploadInputElement()..accept = 'image/*';
+                            input.click();
+                            input.onChange.listen((_) {
+                              final file = input.files?.first;
+                              if (file != null) {
+                                final reader = html.FileReader();
+                                reader.readAsDataUrl(file);
+                                reader.onLoad.first.then((_) {
+                                  _imageController.text = reader.result as String;
+                                  setState(() {});
+                                });
+                              }
+                            });
+                          },
+                        )
+                      : null,
+                ),
+              ),
+              const SizedBox(height: 12),
+              if (_imageController.text.isNotEmpty)
+                SizedBox(
+                  height: 120,
+                  child: Image.network(
+                    _imageController.text,
+                    fit: BoxFit.contain,
+                    errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+                  ),
+                ),
               TextField(
                 controller: _priceController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Price',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t('products_screen.price', lang),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _stockController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Stock',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t('products_screen.stock', lang),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _categoryController,
-                decoration: const InputDecoration(
-                  labelText: 'Category',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t('products_screen.category', lang),
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ],
@@ -80,7 +128,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t('common.cancel', lang)),
           ),
           FilledButton(
             onPressed: () async {
@@ -89,12 +137,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   _stockController.text.isEmpty ||
                   _categoryController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please fill all fields')),
+                  SnackBar(content: Text(t('products_screen.please_fill_all_fields', lang))),
                 );
                 return;
               }
 
-              final product = Product(
+                    category: _categoryController.text,
+                    imageUrl: _imageController.text.isEmpty ? null : _imageController.text,
                 name: _nameController.text,
                 price: double.parse(_priceController.text),
                 stock: int.parse(_stockController.text),
@@ -105,10 +154,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
               Navigator.pop(context);
 
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Product added successfully')),
+                SnackBar(content: Text(t('products_screen.product_added', lang))),
               );
             },
-            child: const Text('Add'),
+            child: Text(t('products_screen.add', lang)),
           ),
         ],
       ),
@@ -121,45 +170,47 @@ class _ProductsScreenState extends State<ProductsScreen> {
     _stockController.text = product.stock.toString();
     _categoryController.text = product.category;
 
+    final lang = Provider.of<SettingsProvider>(context, listen: false).language;
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Edit Product'),
+        title: Text(t('products_screen.edit_product', lang)),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Product Name',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t('products_screen.product_name', lang),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _priceController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Price',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t('products_screen.price', lang),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _stockController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Stock',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t('products_screen.stock', lang),
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _categoryController,
-                decoration: const InputDecoration(
-                  labelText: 'Category',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t('products_screen.category', lang),
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ],
@@ -168,7 +219,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t('common.cancel', lang)),
           ),
           FilledButton(
             onPressed: () async {
@@ -183,10 +234,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
               Navigator.pop(context);
 
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Product updated successfully')),
+                SnackBar(content: Text(t('products_screen.product_updated', lang))),
               );
             },
-            child: const Text('Update'),
+            child: Text(t('products_screen.update', lang)),
           ),
         ],
       ),
@@ -196,10 +247,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     final productProvider = context.watch<ProductProvider>();
+    final lang = Provider.of<SettingsProvider>(context).language;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product Management'),
+        title: Text(t('products_screen.title', lang)),
         elevation: 0,
       ),
       body: Column(
@@ -213,7 +265,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 productProvider.searchProducts(value);
               },
               decoration: InputDecoration(
-                hintText: 'Search products...',
+                hintText: t('products_screen.search_hint', lang),
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
@@ -248,7 +300,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No products found',
+                          t('products_screen.no_products', lang),
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
@@ -269,18 +321,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             children: [
                               const SizedBox(height: 4),
                               Text(
-                                'Price: Rp ${product.price.toStringAsFixed(0)}',
+                                '${t('products_screen.price', lang)}: Rp ${product.price.toStringAsFixed(0)}',
                                 style: const TextStyle(fontWeight: FontWeight.w500),
                               ),
                               Text(
-                                'Stock: ${product.stock} | Category: ${product.category}',
+                                '${t('products_screen.stock', lang)}: ${product.stock} | ${t('products_screen.category', lang)}: ${product.category}',
                               ),
                             ],
                           ),
                           trailing: PopupMenuButton(
                             itemBuilder: (context) => [
                               PopupMenuItem(
-                                child: const Text('Edit'),
+                                child: Text(t('products_screen.edit', lang)),
                                 onTap: () {
                                   Future.microtask(
                                     () => _showEditProductDialog(product),
@@ -288,12 +340,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 },
                               ),
                               PopupMenuItem(
-                                child: const Text('Delete'),
+                                child: Text(t('products_screen.delete_product', lang)),
                                 onTap: () {
                                   productProvider.deleteProduct(product.id!);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Product deleted'),
+                                    SnackBar(
+                                      content: Text(t('products_screen.product_deleted', lang)),
                                     ),
                                   );
                                 },
@@ -309,7 +361,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showAddProductDialog,
-        label: const Text('Add Product'),
+        label: Text(t('products_screen.add_product', lang)),
         icon: const Icon(Icons.add),
       ),
     );

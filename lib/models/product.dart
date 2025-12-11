@@ -4,6 +4,7 @@ class Product {
   final double price;
   final int stock;
   final String category;
+  final String? imageUrl;
 
   Product({
     this.id,
@@ -11,6 +12,7 @@ class Product {
     required this.price,
     required this.stock,
     required this.category,
+    this.imageUrl,
   });
 
   // Convert Product to Map (for database)
@@ -21,6 +23,7 @@ class Product {
       'price': price,
       'stock': stock,
       'category': category,
+      'image': imageUrl,
     };
   }
 
@@ -32,6 +35,7 @@ class Product {
       price: (map['price'] as num).toDouble(),
       stock: map['stock'],
       category: map['category'],
+      imageUrl: map['image'],
     );
   }
 
@@ -42,6 +46,7 @@ class Product {
     double? price,
     int? stock,
     String? category,
+    String? imageUrl,
   }) {
     return Product(
       id: id ?? this.id,
@@ -49,6 +54,7 @@ class Product {
       price: price ?? this.price,
       stock: stock ?? this.stock,
       category: category ?? this.category,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 }

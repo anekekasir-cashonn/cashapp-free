@@ -17,7 +17,7 @@ class AppTheme {
         brightness: Brightness.light,
       ).surface,
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -90,7 +90,7 @@ class AppTheme {
         brightness: Brightness.dark,
       ).surface,
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),

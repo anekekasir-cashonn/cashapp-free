@@ -37,13 +37,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_linter: ^3.0.0
-
 flutter:
   uses-material-design: true
   
   assets:
-    - assets/lang/
-
-  # Enable Material 3 styles
-  no-material-banner: false
+    - assets/lang/en.json
+    - assets/lang/id.json

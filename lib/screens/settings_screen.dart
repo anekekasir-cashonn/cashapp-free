@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cashapp_free/providers/index.dart';
+import 'package:cashapp_free/utils/localization_helper.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(t('settings_screen.title', settingsProvider.language)),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -26,7 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             // Theme Section
             Text(
-              'Appearance',
+              t('settings_screen.appearance', settingsProvider.language),
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -44,13 +45,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Dark Mode',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            Text(
+                              t('settings_screen.dark_mode', settingsProvider.language),
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Enable dark theme',
+                              t('settings_screen.dark_mode_desc', settingsProvider.language),
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ],
@@ -72,7 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             // Language Section
             Text(
-              'Language',
+              t('settings_screen.language', settingsProvider.language),
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -84,9 +85,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Select Language',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Text(
+                      t('settings_screen.select_language', settingsProvider.language),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 12),
                     Row(
