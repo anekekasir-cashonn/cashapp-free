@@ -142,12 +142,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 return;
               }
 
-                    category: _categoryController.text,
-                    imageUrl: _imageController.text.isEmpty ? null : _imageController.text,
+              final product = Product(
                 name: _nameController.text,
                 price: double.parse(_priceController.text),
                 stock: int.parse(_stockController.text),
                 category: _categoryController.text,
+                imageUrl: _imageController.text.isEmpty ? null : _imageController.text,
               );
 
               context.read<ProductProvider>().addProduct(product);
@@ -169,6 +169,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     _priceController.text = product.price.toString();
     _stockController.text = product.stock.toString();
     _categoryController.text = product.category;
+    _imageController.text = product.imageUrl ?? '';
 
     final lang = Provider.of<SettingsProvider>(context, listen: false).language;
 
@@ -188,6 +189,44 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 ),
               ),
               const SizedBox(height: 12),
+              // Image field
+              TextField(
+                controller: _imageController,
+                decoration: InputDecoration(
+                  labelText: t('products_screen.image', lang),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: kIsWeb
+                      ? IconButton(
+                          icon: const Icon(Icons.photo_library),
+                          onPressed: () {
+                            final input = html.FileUploadInputElement()..accept = 'image/*';
+                            input.click();
+                            input.onChange.listen((_) {
+                              final file = input.files?.first;
+                              if (file != null) {
+                                final reader = html.FileReader();
+                                reader.readAsDataUrl(file);
+                                reader.onLoad.first.then((_) {
+                                  _imageController.text = reader.result as String;
+                                  setState(() {});
+                                });
+                              }
+                            });
+                          },
+                        )
+                      : null,
+                ),
+              ),
+              const SizedBox(height: 12),
+              if (_imageController.text.isNotEmpty)
+                SizedBox(
+                  height: 120,
+                  child: Image.network(
+                    _imageController.text,
+                    fit: BoxFit.contain,
+                    errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+                  ),
+                ),
               TextField(
                 controller: _priceController,
                 keyboardType: TextInputType.number,

@@ -40,9 +40,7 @@
     "edit": "Edit",
     "delete": "Delete",
     "add": "Add",
-    "update": "Update"
-  },
-  "products_screen": {
+    "update": "Update",
     "image": "Image URL or pick file"
   },
   
